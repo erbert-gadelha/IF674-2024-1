@@ -1,15 +1,12 @@
 
 _start:
-
 	addi sp, zero, 2047 # sp = 2047
-	lw a1, var1
+	lw a1, input
 
 	jal ra, GET_DIGITS 
 	jal ra, FATORIALS
+	jal ra, SHOW_DIGITS 
 	
-	# tentando exibir resultado
-	sb a0, 1024(x0)
-
 	# Encerra Aplicacao
 	beq zero, zero, END
 
@@ -18,7 +15,7 @@ GET_DIGITS:
 	addi sp, sp, -4 # Salva ra
     sw ra, 0x0(sp)  # Salva ra
 
-	lw a0, var2					# a1 =10'5
+	lw a0, var_10_5		# a1 =10'5
 	jal ra, GET_DIGIT   # GET_DIGIT(5)
 	addi x18, a0, 0
 
@@ -66,33 +63,27 @@ FATORIALS:
     sw ra, 0x0(sp)  # Salva ra
 	addi sp, sp, -4 # Salva t0
     sw t0, 0x0(sp)  # Salva t0
-	add t0, x0, x0
 	add t5, x0, x0
 
 	add a0, x0, x18
 	jal ra, FATORIAL
-	add t0, t0, a0
-	add t5, t5, a0 # DEBUG
+	add t5, t5, a0 # t5 += FATORIAL(a0)
 
 	add a0, x0, x19
 	jal ra, FATORIAL
-	add t0, t0, a0
-	add t5, t5, a0 # DEBUG
+	add t5, t5, a0 # t5 += FATORIAL(a0)
 
 	add a0, x0, x20
 	jal ra, FATORIAL
-	add t0, t0, a0
-	add t5, t5, a0 # DEBUG
+	add t5, t5, a0 # t5 += FATORIAL(a0)
 
 	add a0, x0, x21
 	jal ra, FATORIAL
-	add t0, t0, a0
-	add t5, t5, a0 # DEBUG
+	add t5, t5, a0 # t5 += FATORIAL(a0)
 
 	add a0, x0, x22
 	jal ra, FATORIAL
-	add t0, t0, a0
-	add t5, t5, a0 # DEBUG
+	add t5, t5, a0 # t5 += FATORIAL(a0)
 
 	lw t0, 0x0(sp)  # Restaura t0
 	addi sp, sp, 4  # Restaura t0
@@ -158,11 +149,42 @@ MULTIPLY:
 
 
 
+SHOW_DIGITS:
+	addi sp, sp, -4 # Salva ra
+    sw ra, 0x0(sp)  # Salva ra
+	addi sp, sp, -4 # Salva t0
+    sw t0, 0x0(sp)  # Salva t0
+
+    addi t0, zero, 40  # t0 = '('
+	sb t0, 1024(x0)
+
+	add a1, zero, t5   # a1 = t5
+	jal ra, GET_DIGITS # GET_DIGITS(a1)
 
 
+	addi t0, s2, 48
+	sb t0, 1024(x0)
 
+	addi t0, s3, 48
+	sb t0, 1024(x0)
 
+	addi t0, s4, 48
+	sb t0, 1024(x0)
 
+	addi t0, s5, 48
+	sb t0, 1024(x0)
+
+	addi t0, s6, 48
+	sb t0, 1024(x0)
+
+    addi t0, zero, 41  # t0 = ')'
+	sb t0, 1024(x0)
+
+	lw t0, 0(sp)	# Restaura t0
+	addi sp, sp, 4  # Restaura t0
+	lw ra, 0(sp)	# Restaura ra
+	addi sp, sp, 4  # Restaura ra
+	jalr zero, 0(ra)
 
 
 
@@ -171,11 +193,8 @@ END:
 	addi x31, x0, -1
 	halt
 
-var1: .word 678
-var2: .word 10000
-caractere: .byte 'A'
 
 
-
-
+input: .word 678
+var_10_5: .word 10000
 
