@@ -1,0 +1,44 @@
+5a. Calcule o tempo de execução e CPI considerando um RISC-V cycle-accurate.
+	~ Contando ciclos:
+		cycleAccurate: (140|240) ciclos 		// quantidade de ciclos é afetada devido a existencia de loop
+		média(cycleAccurate): 190 ciclos
+		
+	~ Contando as instruções:
+		start: 4 instruções
+		loop: 7 instruções
+		DIVIDIR: (12) + (3|2) + (4|40) instruções	// quantidade de intruções é afetada devido a existencia de loop
+		média(DIVIDIR): 12 + 2.5 + 22 = 36.5 instuções	// calculo será realizado considerando a média
+		total = 4+7+36.5 = 47.5 instruções
+
+	CPI = ciclos/instrucoes
+	CPI = 190/47.5 = 4
+	
+	
+
+5b. Qual a taxa de leitura da sua solução?
+	Taxa de leitura = 1/(Tempo de execucao)
+	
+	~ Calculando tempo de execução
+		melhor caso: 2.2 segundos
+		pior caso: 4.8 segundos
+		média: 3.5 segundos
+	
+	Taxa de leitura = 1/3.5 = 0.29(leituras por segundo)
+	
+	
+	
+	
+5c. Se a taxa de leitura tiver que ter um speed-up de 10x, qual deverá ser a frequência do clock?
+	~ Taxa de leitura é diretamente proporcional à frequência, logo:
+		(Taxa de Leitura)*10 => Clock*10
+		
+	Novo Clock: 200MHz*10 = 2GHz
+
+
+5d. É possível de implementar com a sua implementação?
+	Sim, utilizando um hardware que suporte tal frequência.
+	Porém se o clock do arduino for inferior a 2GHz, pode ser  osleds não sejam acesos corretamente no caso do termômetro variar rápido demais.
+
+
+
+
